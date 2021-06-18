@@ -141,13 +141,13 @@ class MainActivity : AppCompatActivity(), ServiceConnection {
             }
 
             tv_name_song_main.text = music.nameSong
-            if (music.artistName == null&&music.album ==null) {
-                    tv_name_singer_main.text = "Unknown Artist | Unknown Album"
+            if (music.artistName == null && music.album == null) {
+                tv_name_singer_main.text = "Unknown Artist | Unknown Album"
 
-            } else if(music.artistName == null&&music.album !=null){
+            } else if (music.artistName == null && music.album != null) {
                 tv_name_singer_main.text = "Unknown Artist | ${music.album}"
-            }else if (music.artistName != null&&music.album ==null){
-                tv_name_singer_main.text = "${ music.artistName } | ${music.album}"
+            } else if (music.artistName != null && music.album == null) {
+                tv_name_singer_main.text = "${music.artistName} | ${music.album}"
             }
 
         } else {
@@ -195,19 +195,19 @@ class MainActivity : AppCompatActivity(), ServiceConnection {
 
     private fun handleProcessBar() {
         job = CoroutineScope(Dispatchers.Default).launch {
-            while (true){
+            while (true) {
                 if (::musicService.isInitialized) {
-                    updateUIProcessBar(musicService.currentPosition,musicService.duration)
+                    updateUIProcessBar(musicService.currentPosition, musicService.duration)
                 }
                 delay(1000)
             }
         }
     }
 
-    suspend fun updateUIProcessBar(position:Int, positionMax:Int){
-        withContext(Dispatchers.Main){
+    suspend fun updateUIProcessBar(position: Int, positionMax: Int) {
+        withContext(Dispatchers.Main) {
             progress_bar.max = positionMax / 1000
-            progress_bar.progress = position/1000
+            progress_bar.progress = position / 1000
         }
     }
 

@@ -236,36 +236,37 @@ class MusicService : Service() {
             currentSongsList[currentPos].artistName
         }
 
-        val notificationBuilder: NotificationCompat.Builder = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.drawable.baseline_music_note_24)
-            .setLargeIcon(bitmap)
-            .setContentTitle(currentSongsList[currentPos].nameSong)
-            .setContentText(artistName)
-            .setStyle(
-                androidx.media.app.NotificationCompat.MediaStyle()
-                    .setShowActionsInCompactView(0, 1, 2)
-                    .setMediaSession(mediaSessionCompat.sessionToken)
-            )
-            .setPriority(NotificationCompat.PRIORITY_LOW)
+        val notificationBuilder: NotificationCompat.Builder =
+            NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.baseline_music_note_24)
+                .setLargeIcon(bitmap)
+                .setContentTitle(currentSongsList[currentPos].nameSong)
+                .setContentText(artistName)
+                .setStyle(
+                    androidx.media.app.NotificationCompat.MediaStyle()
+                        .setShowActionsInCompactView(0, 1, 2)
+                        .setMediaSession(mediaSessionCompat.sessionToken)
+                )
+                .setPriority(NotificationCompat.PRIORITY_LOW)
 
-        if (isPlaying){
+        if (isPlaying) {
             notificationBuilder
                 .addAction(R.drawable.baseline_skip_previous_24, "Previous", prevPending)
                 .addAction(R.drawable.baseline_pause_24, "Pause", pausePending)
                 .addAction(R.drawable.baseline_skip_next_24, "Next", nextPending)
-        }else{
+        } else {
             notificationBuilder
                 .addAction(R.drawable.baseline_skip_previous_24, "Previous", prevPending)
                 .addAction(R.drawable.baseline_play_arrow_24, "Pause", pausePending)
                 .addAction(R.drawable.baseline_skip_next_24, "Next", nextPending)
         }
 
-        val notification:Notification = notificationBuilder.build()
+        val notification: Notification = notificationBuilder.build()
 
         startForeground(1, notification)
     }
 
-    private fun sendActionToActivity(){
+    private fun sendActionToActivity() {
         val intent = Intent("send_data_to_activity")
         intent.putExtra("action_music", "action_music")
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)

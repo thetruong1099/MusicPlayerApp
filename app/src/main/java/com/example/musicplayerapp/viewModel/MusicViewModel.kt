@@ -8,21 +8,24 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
-class MusicViewModel(application: Application): ViewModel() {
+class MusicViewModel(application: Application) : ViewModel() {
 
     private val musicRepository = MusicRepository(application)
 
-    fun insertMusic(music: Music) = viewModelScope.launch(Dispatchers.IO) { musicRepository.insertMusic(music) }
+    fun insertMusic(music: Music) =
+        viewModelScope.launch(Dispatchers.IO) { musicRepository.insertMusic(music) }
 
-    fun updateStatusFavorite(status: Boolean, spID: String) = viewModelScope.launch(Dispatchers.IO) { musicRepository.updateStatusFavorite(status, spID) }
+    fun updateStatusFavorite(status: Boolean, spID: String) =
+        viewModelScope.launch(Dispatchers.IO) { musicRepository.updateStatusFavorite(status, spID) }
 
-    fun getAllMusic(): LiveData<MutableList<Music>> =  musicRepository.getAllMusic()
+    fun getAllMusic(): LiveData<MutableList<Music>> = musicRepository.getAllMusic()
 
     fun getStatusFavorite(spID: String): LiveData<Boolean> = musicRepository.getStatusFavorite(spID)
 
-    fun getFavoriteMusic(): LiveData<MutableList<Music>> =  musicRepository.getFavoriteMusic()
+    fun getFavoriteMusic(): LiveData<MutableList<Music>> = musicRepository.getFavoriteMusic()
 
-    fun searchMusic(keyword: String): LiveData<MutableList<Music>> = musicRepository.searchMusic(keyword)
+    fun searchMusic(keyword: String): LiveData<MutableList<Music>> =
+        musicRepository.searchMusic(keyword)
 
     class MusicViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {

@@ -5,7 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
 
-class ApplicationClass: Application() {
+class ApplicationClass : Application() {
 
     companion object {
         const val CHANNEL_ID = "CHANNEL_ID"
@@ -23,12 +23,18 @@ class ApplicationClass: Application() {
     private fun createChanelNotification() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-            val notificationChannel2 = NotificationChannel(CHANNEL_ID, "Channel ID", NotificationManager.IMPORTANCE_HIGH)
+            val notificationChannel2 =
+                NotificationChannel(CHANNEL_ID, "Channel ID", NotificationManager.IMPORTANCE_HIGH)
             notificationChannel2.description = "Channel 2 Description"
             notificationChannel2.setSound(null, null)
 
-            val notificationManager: NotificationManager = getSystemService(NotificationManager::class.java) as NotificationManager
-            notificationManager?.let { notificationManager.createNotificationChannel(notificationChannel2) }
+            val notificationManager: NotificationManager =
+                getSystemService(NotificationManager::class.java) as NotificationManager
+            notificationManager?.let {
+                notificationManager.createNotificationChannel(
+                    notificationChannel2
+                )
+            }
         }
     }
 

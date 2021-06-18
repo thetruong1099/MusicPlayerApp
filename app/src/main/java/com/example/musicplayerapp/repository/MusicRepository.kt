@@ -19,7 +19,8 @@ class MusicRepository(app: Application) {
 
     suspend fun insertMusic(music: Music) = musicDAO.insertMusic(music)
 
-    suspend fun updateStatusFavorite(status: Boolean, spID: String) = musicDAO.updateStatusFavorite(status, spID)
+    suspend fun updateStatusFavorite(status: Boolean, spID: String) =
+        musicDAO.updateStatusFavorite(status, spID)
 
     fun getAllMusic(): LiveData<MutableList<Music>> = musicDAO.getAllMusic()
 

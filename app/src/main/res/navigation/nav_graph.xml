@@ -9,7 +9,7 @@
         android:id="@+id/playListFragment"
         android:name="com.example.musicplayerapp.ui.fragment.PlayListFragment"
         android:label="fragment_play_list"
-        tools:layout="@layout/fragment_play_list" >
+        tools:layout="@layout/fragment_play_list">
         <action
             android:id="@+id/action_playListFragment_to_favoriteFragment"
             app:destination="@id/favoriteFragment"

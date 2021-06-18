@@ -12,8 +12,8 @@ data class Music(
     @ColumnInfo(name = "artist_col") var artistName: String?,
     @ColumnInfo(name = "album_col") var album: String?,
     @ColumnInfo(name = "uri_col") var uri: String,
-    @ColumnInfo(name = "favorite_col") var favorite:Boolean
-): Serializable {
+    @ColumnInfo(name = "favorite_col") var favorite: Boolean
+) : Serializable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id_col")
     var id: Int = 0

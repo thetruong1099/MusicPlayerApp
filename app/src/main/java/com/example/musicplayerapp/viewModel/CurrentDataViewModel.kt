@@ -13,12 +13,12 @@ import java.lang.IllegalArgumentException
 
 class CurrentDataViewModel() {
 
-    companion object{
+    companion object {
         val instance = CurrentDataViewModel()
     }
 
-    var currentSongs:MutableList<Music> = mutableListOf()
+    var currentSongs: MutableList<Music> = mutableListOf()
     var currentSongPos: Int = -1
-    var currentShuffle:Int = 2
+    var currentShuffle: Int = 2
 
 }

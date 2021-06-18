@@ -1,7 +1,7 @@
 package com.example.musicplayerapp.util
 
 class Extension {
-    companion object{
+    companion object {
         fun formatTime(time: Int): String {
             var totalOut = ""
             var totalNew = ""

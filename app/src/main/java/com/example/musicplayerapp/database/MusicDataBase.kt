@@ -8,7 +8,7 @@ import com.example.musicplayerapp.dao.MusicDAO
 import com.example.musicplayerapp.model.Music
 
 @Database(entities = [Music::class], version = 1)
-abstract class MusicDataBase: RoomDatabase() {
+abstract class MusicDataBase : RoomDatabase() {
 
     abstract fun getMusicDao(): MusicDAO
 

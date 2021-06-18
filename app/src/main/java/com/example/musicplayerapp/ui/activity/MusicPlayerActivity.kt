@@ -199,7 +199,6 @@ class MusicPlayerActivity : AppCompatActivity(), ServiceConnection {
         })
 
 
-
 //        this@MusicPlayerActivity.runOnUiThread(object : Runnable{
 //            override fun run() {
 //                if (::musicService.isInitialized) {
@@ -213,7 +212,7 @@ class MusicPlayerActivity : AppCompatActivity(), ServiceConnection {
 //        })
     }
 
-    private fun handleSeekBarCoroutine(){
+    private fun handleSeekBarCoroutine() {
         job = CoroutineScope(Dispatchers.Default).launch {
             while (true) {
                 if (::musicService.isInitialized) {

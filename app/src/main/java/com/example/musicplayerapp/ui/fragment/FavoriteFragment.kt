@@ -54,15 +54,16 @@ class FavoriteFragment : Fragment() {
         }
 
         musicViewModel.getFavoriteMusic().observe(viewLifecycleOwner, Observer {
-            if (it!=null){
+            if (it != null) {
                 listSongAdapter.setListSong(it)
                 tv_null_data.visibility = View.GONE
-            }else{
+            } else {
                 tv_null_data.visibility = View.VISIBLE
             }
         })
 
     }
+
     private val onItemClick: (music: Music) -> Unit = {
         val intent = Intent(requireContext(), MusicPlayerActivity::class.java)
         intent.putExtra("music", it)

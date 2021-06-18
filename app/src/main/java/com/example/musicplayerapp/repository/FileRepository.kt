@@ -8,10 +8,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 
-class FileRepository(val context: Context)  {
+class FileRepository(val context: Context) {
 
-    suspend fun getAllAudioFromDevice():MutableList<Music>{
-        return withContext(Dispatchers.IO){
+    suspend fun getAllAudioFromDevice(): MutableList<Music> {
+        return withContext(Dispatchers.IO) {
             var musicList: MutableList<Music> = mutableListOf()
             context.contentResolver.query(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
@@ -20,7 +20,7 @@ class FileRepository(val context: Context)  {
                 null,
                 null,
             )?.use { cursor ->
-                if (cursor!=null){
+                if (cursor != null) {
                     while (cursor.moveToNext()) {
                         val id =
                             cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID))

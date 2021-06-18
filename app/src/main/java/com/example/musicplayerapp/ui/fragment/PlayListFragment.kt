@@ -22,9 +22,9 @@ import kotlinx.android.synthetic.main.fragment_play_list.*
 
 class PlayListFragment : Fragment() {
 
-    private var tempList:MutableList<Music> = mutableListOf()
+    private var tempList: MutableList<Music> = mutableListOf()
 
-    private val currentDataViewModel  = CurrentDataViewModel.instance
+    private val currentDataViewModel = CurrentDataViewModel.instance
 
     private val musicViewModel by lazy {
         ViewModelProvider(
@@ -36,7 +36,6 @@ class PlayListFragment : Fragment() {
     private val listSongAdapter: ListSongAdapter by lazy {
         ListSongAdapter(onItemClick)
     }
-
 
 
     override fun onCreateView(
@@ -56,12 +55,12 @@ class PlayListFragment : Fragment() {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
 
-        musicViewModel.getAllMusic().observe(viewLifecycleOwner){
-            if(it.size!=0){
+        musicViewModel.getAllMusic().observe(viewLifecycleOwner) {
+            if (it.size != 0) {
                 currentDataViewModel.currentSongs = it
                 listSongAdapter.setListSong(it)
                 tv_null_data.visibility = View.GONE
-            }else{
+            } else {
                 tv_null_data.visibility = View.VISIBLE
             }
         }
@@ -75,11 +74,14 @@ class PlayListFragment : Fragment() {
         btnSearch.setOnClickListener {
             val intent = Intent(requireContext(), SearchActivity::class.java)
             requireActivity().startActivity(intent)
-            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            requireActivity().overridePendingTransition(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left
+            )
         }
     }
 
-    private val onItemClick: (music:Music) -> Unit = {
+    private val onItemClick: (music: Music) -> Unit = {
         val intent = Intent(requireContext(), MusicPlayerActivity::class.java)
         intent.putExtra("music", it)
         startActivity(intent)
