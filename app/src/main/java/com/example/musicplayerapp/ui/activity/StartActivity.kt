@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -65,6 +66,7 @@ class StartActivity : AppCompatActivity() {
         fileViewModel.getAllAudioFromDevice().observe(this, Observer {
             it?.let {
                 fileManager.spMusicFiles = it
+                Log.d("aaaa", "getAllFile: ${it.size}")
             }
         })
 

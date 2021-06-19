@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity(), ServiceConnection {
             fileManager.viewModelReady(it)
         })
 
+
         job = Job()
         job.cancel()
 
@@ -82,6 +83,7 @@ class MainActivity : AppCompatActivity(), ServiceConnection {
 
     override fun onResume() {
         super.onResume()
+
         job.cancel()
         handleProcessBar()
     }

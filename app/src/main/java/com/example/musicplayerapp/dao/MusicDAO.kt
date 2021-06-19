@@ -16,6 +16,9 @@ interface MusicDAO {
     @Query("UPDATE music_table SET favorite_col = :status WHERE sp_id_col = :spID")
     suspend fun updateStatusFavorite(status: Boolean, spID: String)
 
+    @Query("delete from music_table")
+    suspend fun deleteAllMusic()
+
     @Query("SELECT * FROM music_table")
     fun getAllMusic(): LiveData<MutableList<Music>>
 

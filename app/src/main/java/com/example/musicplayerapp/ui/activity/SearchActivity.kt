@@ -53,7 +53,6 @@ class SearchActivity : AppCompatActivity() {
                 if (s.toString().isNotEmpty()) {
                     var keyword =
                         "%${s.toString().lowercase()}%"
-
                     musicViewModel.searchMusic(keyword).observe(this@SearchActivity, Observer {
                         listSongAdapter.setListSong(it)
                     })

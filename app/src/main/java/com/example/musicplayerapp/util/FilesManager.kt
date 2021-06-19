@@ -37,4 +37,7 @@ class FilesManager {
         musicViewModel.insertMusic(music)
     }
 
+    private fun deleteDB() {
+        musicViewModel.deleteAllMusic()
+    }
 }
