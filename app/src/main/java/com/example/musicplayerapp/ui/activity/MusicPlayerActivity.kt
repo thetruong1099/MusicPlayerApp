@@ -98,8 +98,10 @@ class MusicPlayerActivity : AppCompatActivity(), ServiceConnection {
         val myBinder = service as MusicService.MyBinder
         musicService = myBinder.service
 
-        if (music.id - 1 != currentDataViewModel.currentSongPos) {
-            musicService.playMusic(music.id - 1)
+        var position = currentDataViewModel.currentSongs.indexOf(music)
+
+        if (position != currentDataViewModel.currentSongPos) {
+            musicService.playMusic(position)
         }
 
         musicService.initListener()

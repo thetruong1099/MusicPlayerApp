@@ -15,10 +15,11 @@ class FilesManager {
 
     fun viewModelReady(musics: MutableList<Music>) {
         dbMusicFiles = musics
-        mergeAll()
+        mergerAll()
     }
 
-    fun mergeAll() {
+    private fun mergerAll() {
+        deleteDB()
         for (it in 0 until spMusicFiles.size) {
             var isNew = true
             for (dbMus in dbMusicFiles) {

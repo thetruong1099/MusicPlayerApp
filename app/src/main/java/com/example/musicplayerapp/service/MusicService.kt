@@ -142,7 +142,7 @@ class MusicService : Service() {
             REPEAT_ALL, REPEAT_ONE -> currentDataViewModel.currentSongPos =
                 ((currentDataViewModel.currentSongPos + 1) % currentSongsList.size)
             SHUFFLE_ALL -> currentDataViewModel.currentSongPos =
-                Random.nextInt(0, currentSongsList.size)
+                Random.nextInt(0, currentSongsList.size - 1)
         }
         createMediaPlayer(currentPos)
         initListener()
@@ -158,7 +158,7 @@ class MusicService : Service() {
                 if (currentDataViewModel.currentSongPos == 0) currentSongsList.size - 1
                 else currentDataViewModel.currentSongPos - 1
             SHUFFLE_ALL -> currentDataViewModel.currentSongPos =
-                Random.nextInt(0, currentSongsList.size)
+                Random.nextInt(0, currentSongsList.size - 1)
         }
 
         createMediaPlayer(currentPos)
@@ -180,7 +180,7 @@ class MusicService : Service() {
                 REPEAT_ALL -> currentDataViewModel.currentSongPos =
                     ((currentDataViewModel.currentSongPos + 1) % currentSongsList.size)
                 SHUFFLE_ALL -> currentDataViewModel.currentSongPos =
-                    Random.nextInt(0, currentSongsList.size)
+                    Random.nextInt(0, currentSongsList.size - 1)
             }
 
             createMediaPlayer(currentPos)

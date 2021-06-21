@@ -19,6 +19,7 @@ interface MusicDAO {
     @Query("delete from music_table")
     suspend fun deleteAllMusic()
 
+
     @Query("SELECT * FROM music_table")
     fun getAllMusic(): LiveData<MutableList<Music>>
 

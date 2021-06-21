@@ -66,7 +66,6 @@ class StartActivity : AppCompatActivity() {
         fileViewModel.getAllAudioFromDevice().observe(this, Observer {
             it?.let {
                 fileManager.spMusicFiles = it
-                Log.d("aaaa", "getAllFile: ${it.size}")
             }
         })
 
