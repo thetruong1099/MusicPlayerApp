@@ -1,12 +1,17 @@
 package com.example.musicplayerapp.ui.fragment
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,22 +20,22 @@ import com.example.musicplayerapp.adapter.ListSongAdapter
 import com.example.musicplayerapp.model.Music
 import com.example.musicplayerapp.ui.activity.MusicPlayerActivity
 import com.example.musicplayerapp.ui.activity.SearchActivity
+import com.example.musicplayerapp.util.FilesManager
 import com.example.musicplayerapp.viewModel.CurrentDataViewModel
+import com.example.musicplayerapp.viewModel.FileViewModel
 import com.example.musicplayerapp.viewModel.MusicViewModel
 import kotlinx.android.synthetic.main.fragment_play_list.*
 
 
 class PlayListFragment : Fragment() {
 
-    private var tempList: MutableList<Music> = mutableListOf()
-
     private val currentDataViewModel = CurrentDataViewModel.instance
 
-    private val musicViewModel by lazy {
+    private val fileViewModel by lazy {
         ViewModelProvider(
             this,
-            MusicViewModel.MusicViewModelFactory(requireActivity().application)
-        )[MusicViewModel::class.java]
+            FileViewModel.FileViewModelFactory(requireContext())
+        )[FileViewModel::class.java]
     }
 
     private val listSongAdapter: ListSongAdapter by lazy {
@@ -55,15 +60,7 @@ class PlayListFragment : Fragment() {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
 
-        musicViewModel.getAllMusic().observe(viewLifecycleOwner) {
-            if (it.size != 0) {
-                currentDataViewModel.currentSongs = it
-                listSongAdapter.setListSong(it)
-                tv_null_data.visibility = View.GONE
-            } else {
-                tv_null_data.visibility = View.VISIBLE
-            }
-        }
+        requestPermission()
 
         val navController = findNavController()
 
@@ -86,6 +83,44 @@ class PlayListFragment : Fragment() {
         intent.putExtra("music", it)
         startActivity(intent)
         requireActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.slide_stationary)
+    }
+
+    private val requestPermissionResultReadFile = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) {
+        if (it) {
+            getAllFile()
+        }
+    }
+
+    private fun requestPermission() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            getAllFile()
+            return
+        }
+        val result = ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.READ_EXTERNAL_STORAGE
+
+        )
+        if (result == PackageManager.PERMISSION_GRANTED) {
+            getAllFile()
+        } else {
+            requestPermissionResultReadFile.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
+    }
+
+    private fun getAllFile() {
+        fileViewModel.getAllAudioFromDevice().observe(viewLifecycleOwner) {
+            currentDataViewModel.currentSongs = it
+            if (it.size != 0) {
+                listSongAdapter.setListSong(it)
+                tv_null_data.visibility = View.GONE
+            } else {
+                tv_null_data.visibility = View.VISIBLE
+            }
+        }
+
     }
 
 }

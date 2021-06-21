@@ -18,7 +18,7 @@ class MusicViewModel(application: Application) : ViewModel() {
     fun updateStatusFavorite(status: Boolean, spID: String) =
         viewModelScope.launch(Dispatchers.IO) { musicRepository.updateStatusFavorite(status, spID) }
 
-    fun deleteAllMusic() = viewModelScope.launch { musicRepository.deleteAllMusic() }
+    fun deleteMusic(music: Music) = viewModelScope.launch { musicRepository.deleteMusic(music) }
 
     fun getAllMusic(): LiveData<MutableList<Music>> = musicRepository.getAllMusic()
 

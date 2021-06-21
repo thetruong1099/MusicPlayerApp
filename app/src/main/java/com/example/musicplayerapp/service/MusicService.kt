@@ -48,7 +48,7 @@ class MusicService : Service() {
     private val currentPos: Int get() = currentDataViewModel.currentSongPos
     private val currentShuffle: Int get() = currentDataViewModel.currentShuffle
 
-
+    private lateinit var notificationBuilder: NotificationCompat.Builder
     private lateinit var mediaSessionCompat: MediaSessionCompat
 
     val isPlaying get() = mediaPlayer.isPlaying
@@ -69,10 +69,6 @@ class MusicService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        CoroutineScope(Dispatchers.Main).launch {
-            delay(1000)
-            showNotification()
-        }
 
         val actionName = intent?.getStringExtra("ActionName")
         if (actionName != null) {
@@ -106,8 +102,8 @@ class MusicService : Service() {
         }
 
         createMediaPlayer(position)
-        showNotification()
         mediaPlayer.start()
+        startNotification()
     }
 
     private fun createMediaPlayer(positionInner: Int) {
@@ -127,10 +123,10 @@ class MusicService : Service() {
     fun playPauseMusic() {
         if (isPlaying) {
             mediaPlayer.pause()
-            showNotification()
+            updateNotification()
         } else {
             mediaPlayer.start()
-            showNotification()
+            updateNotification()
         }
     }
 
@@ -147,7 +143,7 @@ class MusicService : Service() {
         createMediaPlayer(currentPos)
         initListener()
         mediaPlayer.start()
-        showNotification()
+        updateNotification()
     }
 
     fun previousMusic() {
@@ -164,7 +160,7 @@ class MusicService : Service() {
         createMediaPlayer(currentPos)
         initListener()
         mediaPlayer.start()
-        showNotification()
+        updateNotification()
     }
 
     fun seekTo(position: Int) {
@@ -186,7 +182,7 @@ class MusicService : Service() {
             createMediaPlayer(currentPos)
             initListener()
             mediaPlayer.start()
-            showNotification()
+            updateNotification()
             sentMsg(MSG_COMPLETED)
         }
     }
@@ -212,7 +208,7 @@ class MusicService : Service() {
         }
     }
 
-    private fun showNotification() {
+    private fun showNotification(): Notification {
         val prevIntent =
             Intent(this, MusicReceiver::class.java).setAction(ApplicationClass.ACTION_PREVIOUS)
         val prevPending =
@@ -236,12 +232,13 @@ class MusicService : Service() {
             currentSongsList[currentPos].artistName
         }
 
-        val notificationBuilder: NotificationCompat.Builder =
+        notificationBuilder =
             NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.baseline_music_note_24)
                 .setLargeIcon(bitmap)
                 .setContentTitle(currentSongsList[currentPos].nameSong)
                 .setContentText(artistName)
+                .setOnlyAlertOnce(true)
                 .setStyle(
                     androidx.media.app.NotificationCompat.MediaStyle()
                         .setShowActionsInCompactView(0, 1, 2)
@@ -261,9 +258,17 @@ class MusicService : Service() {
                 .addAction(R.drawable.baseline_skip_next_24, "Next", nextPending)
         }
 
-        val notification: Notification = notificationBuilder.build()
+        return notificationBuilder.build()
+    }
 
-        startForeground(1, notification)
+    private fun startNotification() {
+        startForeground(1, showNotification())
+    }
+
+    private fun updateNotification() {
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.notify(1, showNotification())
     }
 
     private fun sendActionToActivity() {

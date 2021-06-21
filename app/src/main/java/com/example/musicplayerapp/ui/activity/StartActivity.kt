@@ -9,10 +9,12 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.musicplayerapp.R
 import com.example.musicplayerapp.util.FilesManager
+import com.example.musicplayerapp.viewModel.CurrentDataViewModel
 import com.example.musicplayerapp.viewModel.FileViewModel
 import com.example.musicplayerapp.viewModel.MusicViewModel
 import kotlinx.coroutines.*
@@ -62,8 +64,7 @@ class StartActivity : AppCompatActivity() {
     }
 
     private fun getAllFile() {
-
-        fileViewModel.getAllAudioFromDevice().observe(this, Observer {
+        fileViewModel.getAllAudioFromDevice().observe(this@StartActivity, Observer {
             it?.let {
                 fileManager.spMusicFiles = it
             }
@@ -75,7 +76,7 @@ class StartActivity : AppCompatActivity() {
     private fun startMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         CoroutineScope(Dispatchers.Main).launch {
-            delay(2000)
+            delay(3000)
             startActivity(intent)
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             cancel()

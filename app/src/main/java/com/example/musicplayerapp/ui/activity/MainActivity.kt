@@ -56,7 +56,6 @@ class MainActivity : AppCompatActivity(), ServiceConnection {
             fileManager.viewModelReady(it)
         })
 
-
         job = Job()
         job.cancel()
 

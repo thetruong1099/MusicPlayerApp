@@ -22,7 +22,7 @@ class MusicRepository(app: Application) {
     suspend fun updateStatusFavorite(status: Boolean, spID: String) =
         musicDAO.updateStatusFavorite(status, spID)
 
-    suspend fun deleteAllMusic() = musicDAO.deleteAllMusic()
+    suspend fun deleteMusic(music: Music) = musicDAO.deleteMusic(music)
 
     fun getAllMusic(): LiveData<MutableList<Music>> = musicDAO.getAllMusic()
 

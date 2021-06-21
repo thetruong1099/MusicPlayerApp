@@ -63,13 +63,17 @@ class MusicPlayerActivity : AppCompatActivity(), ServiceConnection {
         handleSeekBar()
 
         updateUiFavorite()
+
+
     }
 
     override fun onStart() {
         super.onStart()
         val serviceIntent = Intent(this, MusicService::class.java)
 
+//        if (currentDataViewModel.currentSongPos==-1){
         ContextCompat.startForegroundService(this, serviceIntent)
+//        }
 
         applicationContext.bindService(serviceIntent, this, Context.BIND_AUTO_CREATE)
 
@@ -284,18 +288,20 @@ class MusicPlayerActivity : AppCompatActivity(), ServiceConnection {
         val idFileMusic = music.sp_id
 
         musicViewModel.getStatusFavorite(idFileMusic).observe(this, Observer {
-            val status = it
-            if (status) {
-                btn_favorite.setImageResource(R.drawable.baseline_favorite_24)
-            } else btn_favorite.setImageResource(R.drawable.baseline_favorite_border_24)
-
-            btn_favorite.setOnClickListener {
+            it?.let {
+                val status = it
                 if (status) {
-                    btn_favorite.setImageResource(R.drawable.baseline_favorite_border_24)
-                    musicViewModel.updateStatusFavorite(false, idFileMusic)
-                } else {
                     btn_favorite.setImageResource(R.drawable.baseline_favorite_24)
-                    musicViewModel.updateStatusFavorite(true, idFileMusic)
+                } else btn_favorite.setImageResource(R.drawable.baseline_favorite_border_24)
+
+                btn_favorite.setOnClickListener {
+                    if (status) {
+                        btn_favorite.setImageResource(R.drawable.baseline_favorite_border_24)
+                        musicViewModel.updateStatusFavorite(false, idFileMusic)
+                    } else {
+                        btn_favorite.setImageResource(R.drawable.baseline_favorite_24)
+                        musicViewModel.updateStatusFavorite(true, idFileMusic)
+                    }
                 }
             }
         })

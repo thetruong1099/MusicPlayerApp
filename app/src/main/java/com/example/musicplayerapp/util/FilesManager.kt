@@ -19,12 +19,10 @@ class FilesManager {
     }
 
     private fun mergerAll() {
-        deleteDB()
         for (it in 0 until spMusicFiles.size) {
             var isNew = true
             for (dbMus in dbMusicFiles) {
                 if (spMusicFiles[it].sp_id == dbMus.sp_id) {
-                    spMusicFiles[it] = dbMus
                     isNew = false
                 }
             }
@@ -32,13 +30,26 @@ class FilesManager {
                 saveToDB(spMusicFiles[it])
             }
         }
+
+        for (dbMus in dbMusicFiles) {
+            var isNew = true
+            for (i in spMusicFiles) {
+                if (dbMus.sp_id == i.sp_id) {
+                    isNew = false
+                }
+            }
+            if (isNew) {
+                deleteDB(dbMus)
+            }
+        }
+
     }
 
     private fun saveToDB(music: Music) {
         musicViewModel.insertMusic(music)
     }
 
-    private fun deleteDB() {
-        musicViewModel.deleteAllMusic()
+    private fun deleteDB(music: Music) {
+        musicViewModel.deleteMusic(music)
     }
 }
